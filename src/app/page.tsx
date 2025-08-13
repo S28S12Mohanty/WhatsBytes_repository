@@ -24,11 +24,11 @@ export default async function Home({ searchParams }: { searchParams: Promise<Rec
       <Suspense>
         <Header />
       </Suspense>
-      <main className="container px-4 mt-8 grid grid-cols-1 lg:grid-cols-4 gap-8">
-        <div className="lg:col-span-1">
+      <main className="container px-4 mt-6 sm:mt-8 grid grid-cols-1 lg:grid-cols-4 gap-4 sm:gap-8">
+        <div className="lg:col-span-1 order-2 lg:order-1">
           <Filters />
         </div>
-        <div className="lg:col-span-3">
+        <div className="lg:col-span-3 order-1 lg:order-2">
           {filtered.length === 0 ? (
             <div className="text-neutral-400">No products found. Try adjusting filters.</div>
           ) : (

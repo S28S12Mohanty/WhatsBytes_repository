@@ -43,25 +43,25 @@ export default function CartPage() {
                     <div className="text-sm text-neutral-400">${product!.price.toFixed(2)}</div>
                   </div>
                   <div className="flex items-center gap-2">
-                    <button onClick={() => setQuantity(product!.id, Math.max(0, quantity - 1))} className="px-2 py-1 border border-neutral-700 rounded">-</button>
+                    <button onClick={() => setQuantity(product!.id, Math.max(0, quantity - 1))} className="px-2 py-1 border border-[color:var(--border)] rounded">-</button>
                     <span className="w-8 text-center">{quantity}</span>
-                    <button onClick={() => setQuantity(product!.id, quantity + 1)} className="px-2 py-1 border border-neutral-700 rounded">+</button>
+                    <button onClick={() => setQuantity(product!.id, quantity + 1)} className="px-2 py-1 border border-[color:var(--border)] rounded">+</button>
                   </div>
-                  <button onClick={() => removeItem(product!.id)} className="text-sm text-red-400 hover:text-red-300">Remove</button>
+                  <button onClick={() => removeItem(product!.id)} className="text-sm text-red-500 hover:text-red-400">Remove</button>
                 </div>
               ))}
             </div>
           )}
         </div>
         <div>
-          <div className="border border-neutral-800 rounded-lg p-4 bg-neutral-900/50">
+          <div className="border border-[color:var(--border)] rounded-lg p-4 bg-[color:var(--surface)]/60">
             <h2 className="font-semibold mb-3">Summary</h2>
             <div className="flex items-center justify-between text-sm text-neutral-300 mb-2">
               <span>Subtotal</span>
               <span>${total.toFixed(2)}</span>
             </div>
-            <button disabled={enriched.length === 0} className="w-full bg-emerald-500 disabled:opacity-50 text-black rounded-md py-2 font-medium mt-2">Checkout</button>
-            <button onClick={clear} disabled={enriched.length === 0} className="w-full border border-neutral-700 rounded-md py-2 font-medium mt-2 hover:bg-neutral-800">Clear cart</button>
+            <button disabled={enriched.length === 0} className="w-full bg-[color:var(--primary)] disabled:opacity-50 text-[color:var(--primary-foreground)] rounded-md py-2 font-medium mt-2">Checkout</button>
+            <button onClick={clear} disabled={enriched.length === 0} className="w-full border border-[color:var(--border)] rounded-md py-2 font-medium mt-2 hover:bg-[color:var(--surface)]">Clear cart</button>
           </div>
         </div>
       </main>

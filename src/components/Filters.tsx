@@ -53,15 +53,15 @@ export default function Filters() {
   return (
     <aside className="space-y-6">
       <div>
-        <h3 className="text-sm font-medium mb-2 text-neutral-300">Categories</h3>
+        <h3 className="text-sm font-medium mb-2 text-[color:var(--muted)]">Categories</h3>
         <div className="flex flex-wrap gap-2">
           {categories.map((cat) => (
             <button
               key={cat}
               onClick={() => onToggleCategory(cat)}
               className={`px-3 py-1.5 rounded-full border text-sm transition ${selectedCategories.has(cat)
-                  ? "bg-emerald-500 text-black border-emerald-400"
-                  : "bg-neutral-900 border-neutral-700 hover:border-neutral-500"
+                  ? "bg-[color:var(--primary)] text-[color:var(--primary-foreground)] border-[color:var(--primary)]"
+                  : "bg-[color:var(--surface)] border-[color:var(--border)] hover:border-[color:var(--muted)]"
                 }`}
             >
               {cat}
@@ -70,12 +70,12 @@ export default function Filters() {
         </div>
       </div>
       <div>
-        <h3 className="text-sm font-medium mb-2 text-neutral-300">Price</h3>
+        <h3 className="text-sm font-medium mb-2 text-[color:var(--muted)]">Price</h3>
         <div className="space-y-3">
           <div className="flex items-center gap-3">
             <input
               type="number"
-              className="w-24 bg-neutral-900 border border-neutral-700 rounded px-2 py-1.5"
+              className="w-24 bg-[color:var(--surface)] border border-[color:var(--border)] rounded px-2 py-1.5 text-[color:var(--fg)]"
               value={price[0]}
               min={minPrice}
               max={price[1]}
@@ -85,7 +85,7 @@ export default function Filters() {
             <span className="text-neutral-400">—</span>
             <input
               type="number"
-              className="w-24 bg-neutral-900 border border-neutral-700 rounded px-2 py-1.5"
+              className="w-24 bg-[color:var(--surface)] border border-[color:var(--border)] rounded px-2 py-1.5 text-[color:var(--fg)]"
               value={price[1]}
               min={price[0]}
               max={maxPrice}
@@ -101,7 +101,7 @@ export default function Filters() {
             onChange={(e) => setPrice([Number(e.target.value), price[1]])}
             onMouseUp={onPriceCommit}
             onTouchEnd={onPriceCommit}
-            className="w-full"
+            className="w-full accent-[color:var(--primary)]"
           />
           <input
             type="range"
@@ -111,16 +111,16 @@ export default function Filters() {
             onChange={(e) => setPrice([price[0], Number(e.target.value)])}
             onMouseUp={onPriceCommit}
             onTouchEnd={onPriceCommit}
-            className="w-full"
+            className="w-full accent-[color:var(--primary)]"
           />
         </div>
       </div>
       <div>
-        <h3 className="text-sm font-medium mb-2 text-neutral-300">Brand</h3>
+        <h3 className="text-sm font-medium mb-2 text-[color:var(--muted)]">Brand</h3>
         <select
           defaultValue={searchParams.get("brand") ?? ""}
           onChange={onBrandChange}
-          className="bg-neutral-900 border border-neutral-700 rounded px-3 py-2 text-sm w-full"
+          className="bg-[color:var(--surface)] border border-[color:var(--border)] rounded px-3 py-2 text-sm w-full text-[color:var(--fg)]"
         >
           <option value="">All brands</option>
           {brands.map((b) => (
