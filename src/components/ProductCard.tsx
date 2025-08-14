@@ -1,46 +1,102 @@
-"use client";
+import React from 'react';
+import { Star, ShoppingCart } from 'lucide-react';
+import Link from 'next/link';
+import { Product } from '@/types/product';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { useCart } from '@/contexts/CartContext';
+import { toast } from '@/hooks/use-toast';
 
-import SmartImage from "@/components/SmartImage";
-import Link from "next/link";
-import { Star } from "lucide-react";
-import { Product } from "@/lib/types";
-import { useCartStore } from "@/store/cart";
-
-export default function ProductCard({ product }: { product: Product }) {
-  const addItem = useCartStore((s) => s.addItem);
-  return (
-    <div className="group rounded-xl border border-[color:var(--border)] overflow-hidden bg-[color:var(--surface)]/60 hover:bg-[color:var(--surface)] transition">
-      <Link href={`/product/${product.id}`} className="block relative aspect-[4/3]">
-        <SmartImage
-          src={product.images[0]}
-          alt={product.title}
-          fill
-          className="object-cover"
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-        />
-      </Link>
-      <div className="p-4 space-y-2">
-        <Link href={`/product/${product.id}`} className="block font-medium leading-tight">
-          {product.title}
-        </Link>
-        <div className="flex items-center justify-between">
-          <span className="text-[color:var(--primary)] font-semibold">${product.price.toFixed(2)}</span>
-          {product.rating && (
-            <span className="flex items-center gap-1 text-xs text-[color:var(--muted)]">
-              <Star className="w-4 h-4 text-yellow-400 fill-yellow-400" />
-              {product.rating}
-            </span>
-          )}
-        </div>
-        <button
-          onClick={() => addItem(product.id, 1)}
-          className="w-full mt-2 bg-[color:var(--primary)] text-[color:var(--primary-foreground)] rounded-md py-2 text-sm font-medium hover:brightness-110"
-        >
-          Add to Cart
-        </button>
-      </div>
-    </div>
-  );
+interface ProductCardProps {
+  product: Product;
 }
 
+export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
+  const { addToCart } = useCart();
 
+  const handleAddToCart = (e: React.MouseEvent) => {
+    e.preventDefault();
+    addToCart(product);
+    toast({
+      title: "Added to cart",
+      description: `${product.name} has been added to your cart.`,
+    });
+  };
+
+  const formatPrice = (price: number) => {
+    return new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD',
+    }).format(price);
+  };
+
+  return (
+    <Link href={`/product/${product.id}`}>
+      <Card className="group overflow-hidden bg-gradient-card border-border/50 hover:shadow-card-hover transition-all duration-300 hover:-translate-y-1">
+        <div className="aspect-square overflow-hidden">
+          <img
+            src={product.image}
+            alt={product.name}
+            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+          />
+        </div>
+        
+        <CardContent className="p-4">
+          <div className="space-y-2">
+            {/* Category Badge */}
+            <Badge variant="secondary" className="text-xs">
+              {product.category}
+            </Badge>
+            
+            {/* Product Name */}
+            <h3 className="font-semibold text-card-foreground group-hover:text-primary transition-colors line-clamp-2">
+              {product.name}
+            </h3>
+            
+            {/* Rating */}
+            <div className="flex items-center gap-1">
+              <div className="flex items-center">
+                {[...Array(5)].map((_, i) => (
+                  <Star
+                    key={i}
+                    className={`h-3 w-3 ${
+                      i < Math.floor(product.rating)
+                        ? 'fill-yellow-400 text-yellow-400'
+                        : 'text-muted-foreground'
+                    }`}
+                  />
+                ))}
+              </div>
+              <span className="text-xs text-muted-foreground">
+                ({product.reviewCount})
+              </span>
+            </div>
+            
+            {/* Price */}
+            <div className="flex items-center justify-between">
+              <span className="text-lg font-bold text-foreground">
+                {formatPrice(product.price)}
+              </span>
+              
+              {product.inStock ? (
+                <Button
+                  size="sm"
+                  onClick={handleAddToCart}
+                  className="bg-gradient-primary hover:opacity-90 transition-opacity"
+                >
+                  <ShoppingCart className="h-4 w-4 mr-1" />
+                  Add
+                </Button>
+              ) : (
+                <Badge variant="destructive" className="text-xs">
+                  Out of Stock
+                </Badge>
+              )}
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+    </Link>
+  );
+};

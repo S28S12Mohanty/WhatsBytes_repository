@@ -1,69 +1,147 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-
-  /* Theme tokens */
-  --bg: #ffffff;
-  --fg: #0f172a;
-  --surface: #f8fafc; /* cards, headers */
-  --muted: #475569;
-  --border: #e2e8f0;
-  --primary: #10b981;
-  --primary-foreground: #0a0a0a;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+@theme {
+  --color-background: #ffffff;
+  --color-foreground: #111111;
+  --color-card: #f8f8f8;
+  --color-card-foreground: #111111;
+  --color-border: #cccccc;
+  --color-accent: #f0f0f0;
+  --color-accent-foreground: #111111;
+  --color-muted: #f0f0f0;
+  --color-muted-foreground: #555555;
+  --color-primary: #3b82f6;
+  --color-primary-foreground: #ffffff;
+  --color-secondary: #f1f5f9;
+  --color-secondary-foreground: #0f172a;
+  --color-destructive: #ef4444;
+  --color-destructive-foreground: #ffffff;
+  
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  
+  --radius: 0.5rem;
+  --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
 }
 
 @media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-
-    --bg: #0a0a0a;
-    --fg: #e5e7eb;
-    --surface: #111827;
-    --muted: #9ca3af;
-    --border: #1f2937;
-    --primary: #10b981;
-    --primary-foreground: #0a0a0a;
+  @theme {
+    --color-background: #ffffff;
+    --color-foreground: #111111;
+    --color-card: #f8f8f8;
+    --color-card-foreground: #111111;
+    --color-border: #cccccc;
+    --color-accent: #f0f0f0;
+    --color-accent-foreground: #111111;
+    --color-muted: #f0f0f0;
+    --color-muted-foreground: #555555;
+    --color-primary: #3b82f6;
+    --color-primary-foreground: #ffffff;
+    --color-secondary: #e5e5e5;
+    --color-secondary-foreground: #111111;
   }
 }
 
 body {
-  background: var(--bg);
-  color: var(--fg);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-background);
+  color: var(--color-foreground);
+  font-family: var(--font-sans), Arial, Helvetica, sans-serif;
 }
 
-/* Explicit theme overrides */
-[data-theme="light"] {
-  --bg: #ffffff;
-  --fg: #0f172a;
-  --surface: #f8fafc;
-  --muted: #475569;
-  --border: #e2e8f0;
-  --primary: #10b981;
-  --primary-foreground: #0a0a0a;
+/* Custom utility classes */
+.bg-gradient-primary {
+  background: linear-gradient(135deg, #3b82f6, #1d4ed8);
 }
 
-[data-theme="dark"] {
-  --bg: #0a0a0a;
-  --fg: #e5e7eb;
-  --surface: #111827;
-  --muted: #9ca3af;
-  --border: #1f2937;
-  --primary: #10b981;
-  --primary-foreground: #0a0a0a;
+.bg-gradient-card {
+  background: linear-gradient(135deg, var(--color-card), var(--color-accent));
 }
 
-/* Smooth theme transition */
-* {
-  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+.hover\:shadow-card-hover:hover {
+  box-shadow: var(--shadow-lg);
+}
+
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Text gradient for logo */
+.bg-gradient-primary-text {
+  background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Basic color utilities */
+.text-foreground {
+  color: var(--color-foreground);
+}
+
+.text-muted-foreground {
+  color: var(--color-muted-foreground);
+}
+
+.text-primary {
+  color: var(--color-primary);
+}
+
+.text-destructive {
+  color: var(--color-destructive);
+}
+
+.bg-background {
+  background-color: var(--color-background);
+}
+
+.bg-card {
+  background-color: var(--color-card);
+}
+
+.bg-accent {
+  background-color: var(--color-accent);
+}
+
+.bg-primary {
+  background-color: var(--color-primary);
+}
+
+.bg-destructive {
+  background-color: var(--color-destructive);
+}
+
+.border-border {
+  border-color: var(--color-border);
+}
+
+/* Accordion animations */
+@keyframes accordion-down {
+  from {
+    height: 0;
+  }
+  to {
+    height: var(--radix-accordion-content-height);
+  }
+}
+
+@keyframes accordion-up {
+  from {
+    height: var(--radix-accordion-content-height);
+  }
+  to {
+    height: 0;
+  }
+}
+
+.animate-accordion-down {
+  animation: accordion-down 0.2s ease-out;
+}
+
+.animate-accordion-up {
+  animation: accordion-up 0.2s ease-out;
 }
